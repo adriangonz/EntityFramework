@@ -1,6 +1,6 @@
 #include "Entity.h"
 #include "Component.h"
-#include "ComponentData.h"
+#include "CData.h"
 #include "JSONSerializer.h"
 
 #include <iostream>
@@ -8,7 +8,7 @@
 #include <sstream>
 
 int main(int argc, char **argv) {
-	/* TESTING FOR SERIALIZERS (Y UN POCO DE TODO)
+	/* TESTING FOR SERIALIZERS (Y UN POCO DE TODO) */
 	EF::Entity e(0);
 
 	if(argc == 2) {
@@ -29,32 +29,46 @@ int main(int argc, char **argv) {
 
 	}else{
 		//Create random
-		for(int j = 0; j < 10; j++){
-			e.addComponent(EF::Component(j));
+		for(int j = 0; j < 1; j++){
+			EF::Component c(j);
+			c.addData("velocidad", new EF::CData<int>(3));
+			c.addData("frenado", new EF::CData<float>(2.5));
+			c.addData("marca", new EF::CData<std::string>("peugeot"));
+
+			std::cout << "Velocidad: " << ((EF::CData<int>*)c.getData("velocidad"))->get() << std::endl;
+			std::cout << "Frenado: " << ((EF::CData<float>*)c.getData("frenado"))->get() << std::endl;
+			std::cout << "Marca: " << ((EF::CData<std::string>*)c.getData("marca"))->get() << std::endl;
+
+			e.addComponent(c);
 		}
 	}
 
 	std::string output = "";
-	EF::JSONSerializer::serializeFast(&e, output);
+	//EF::JSONSerializer::serializeFast(&e, output);
 
 	std::cout << output << std::endl;
-	*/
-	/* TESTING FOR ComponentData */
-	EF::ComponentData cd1;
+	
+	/* TESTING FOR ComponentData 
+	EF::CData<int> cd1;
 	cd1.set(2);
 	std::cout << "Should be Integer(2)...." << std::endl;
-	std::cout << cd1.getInt() << std::endl;
+	std::cout << cd1.get() << std::endl;
 
-	cd1.set(true);
+	EF::CData<bool> cd2;
+	cd2.set(true);
 	std::cout << "Should be Bool(true)...." << std::endl;
-	std::cout << cd1.getBool()  << std::endl;
+	std::cout << cd2.get()  << std::endl;
 
-	float aux = 3.5;
-	cd1.set(aux);
+	EF::CData<double> cd3;
+	cd3.set(3.5);
 	std::cout << "Should be Double/Float(3.5)...." << std::endl;
-	std::cout << cd1.getDouble()  << std::endl;
+	std::cout << cd3.get()  << std::endl;
 
-	cd1.set("hola");
+	EF::CData<std::string> cd4;
+	cd4.set("hola");
 	std::cout << "Should be String('hola')...." << std::endl;
-	std::cout << cd1.getString()  << std::endl;
+	std::cout << cd4.get()  << std::endl;
+	*/
+	// For prevent closing on Windows
+	getchar();
 }

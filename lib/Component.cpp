@@ -49,6 +49,20 @@ namespace EF {
 	}
 
 	void
+	Component::addData(std::string identifier, IData* data) {
+		_data[identifier] = data;
+	}
+
+	IData*
+	Component::getData(std::string identifier) {
+		return _data[identifier];
+	}
+
+	bool Component::rmData(std::string identifier) {
+		return (_data.erase(identifier) >= 1);
+	}
+
+	void
 	Component::copy(const Component& cp){
 		_id = cp._id;
 	}
@@ -61,5 +75,13 @@ namespace EF {
 	void
 	Component::destroy(){
 		_id = InvalidID;
+
+		typedef	std::map<std::string, IData*> MyMap;
+		MyMap::iterator it, it_end;
+		for(it = _data.begin(), it_end = _data.end(); it != it_end; it++) {
+			delete it->second;
+			it->second = 0x0;
+		}
+		_data.clear();
 	}
 }
