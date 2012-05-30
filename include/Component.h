@@ -3,7 +3,7 @@
 #include <string>
 
 #include "IJsonSerializable.h"
-#include "IData.h"
+#include "CData.h"
 
 namespace EF {
 	class Component : public IJsonSerializable {
@@ -22,8 +22,8 @@ namespace EF {
 		void setID(int id);
 
 		//Adders/Removers
-		void addData(std::string identifier, IData* data);
-		IData* getData(std::string identifier);
+		void addData(std::string identifier, CData data);
+		CData getData(std::string identifier);
 		bool rmData(std::string identifier);
 
 		//Serialize
@@ -35,7 +35,7 @@ namespace EF {
 		int _id;
 
 		//Maps of data for the component
-		std::map<std::string, IData*> _data;
+		std::map<std::string, CData> _data;
 
 		//Aux func for copy/init/destroy
 		void copy(const Component& comp);

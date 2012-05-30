@@ -6,65 +6,59 @@
  */
 #pragma once
 
-#include <sstream>
-
-#include "IData.h"
+#include <string>
 
 namespace EF {
 
-	//Class that holds one variable (of type C)
-	template <typename T>
-	class CData : public IData{
+	//Class that holds one variable of any basic type
+	class CData {
 	public:
+		//Type of data
+		enum DataType {
+			Int,
+			Double,
+			Bool,
+			String,
+			None
+		};
+
 		//Constructors
-		CData() {
-			init();
-		}
-
-		CData(T value_) {
-			init();
-			_value = value_;
-		}
-
-		~CData() {
-			init();
-		}
-
-		CData(const CData& cd) {
-			copy(cd);
-		}
-
-		CData& operator=(const CData& cd) {
-			if(this != &cd) {
-				init();
-				copy(cd);
-			}
-
-			return *this;
-		}
+		CData();
+		CData(int intValue_);
+		CData(double doubleValue_);
+		CData(bool boolValue_);
+		CData(std::string stringValue_);
+		CData(char* stringValue_);
+		~CData();
+		CData(const CData& cd);
+		CData& operator=(const CData& cd);
 
 		//Setters
-		void set(T value_) {
-			_value = value_;
-		}
+		void set(int intValue_);
+		void set(double doubleValue_);
+		void set(bool boolValue_);
+		void set(std::string stringValue_);
+		void set(char* stringValue_);
 
 		//Getters
-		T get() const {
-			return _value;
-		}
+		int getInt() const;
+		double getDouble() const;
+		bool getBool() const;
+		std::string getString() const;
 
 	private:
 		//Value of data
-		T _value;
+		int _iVal;
+		double _dVal;
+		bool _bVal;
+		std::string _sVal;
+
+		//Type of data
+		DataType _type;
 
 		//Methods for init/copy
-		void init() {
-			//_value = 0x0; //I'm not sure if this works
-		}
-
-		void copy(const CData& cd) {
-			_value = cd._value;
-		}
+		void init();
+		void copy(const CData& cd);
 	};
 
 } /* namespace EF */

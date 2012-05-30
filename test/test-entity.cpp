@@ -31,13 +31,13 @@ int main(int argc, char **argv) {
 		//Create random
 		for(int j = 0; j < 1; j++){
 			EF::Component c(j);
-			c.addData("velocidad", new EF::CData<int>(3));
-			c.addData("frenado", new EF::CData<float>(2.5));
-			c.addData("marca", new EF::CData<std::string>("peugeot"));
+			c.addData("velocidad", EF::CData(3));
+			c.addData("frenado", EF::CData(2.5));
+			c.addData("marca", EF::CData("peugeot"));
 
-			std::cout << "Velocidad: " << ((EF::CData<int>*)c.getData("velocidad"))->get() << std::endl;
-			std::cout << "Frenado: " << ((EF::CData<float>*)c.getData("frenado"))->get() << std::endl;
-			std::cout << "Marca: " << ((EF::CData<std::string>*)c.getData("marca"))->get() << std::endl;
+			std::cout << "velocidad: " << c.getData("velocidad").getInt() << std::endl;
+			std::cout << "frenado: " << c.getData("frenado").getDouble() << std::endl;
+			std::cout << "marca: " << c.getData("marca").getString() << std::endl;
 
 			e.addComponent(c);
 		}
