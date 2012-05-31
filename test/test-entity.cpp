@@ -31,22 +31,31 @@ int main(int argc, char **argv) {
 		//Create random
 		for(int j = 0; j < 1; j++){
 			EF::Component c(j);
-			c.addData("velocidad", EF::CData(3));
-			c.addData("frenado", EF::CData(2.5));
-			c.addData("marca", EF::CData("peugeot"));
+			c.addData("velocidad", 3);
+			c.addData("frenado", 2.5);
+			c.addData("marca", "peugeot");
 
-			std::cout << "velocidad: " << c.getData("velocidad").getInt() << std::endl;
-			std::cout << "frenado: " << c.getData("frenado").getDouble() << std::endl;
-			std::cout << "marca: " << c.getData("marca").getString() << std::endl;
+			std::cout << c.getData("velocidad").getTag() << " : " << c.getData("velocidad").getInt() << std::endl;
+			std::cout << c.getData("frenado").getTag() << " : " << c.getData("frenado").getInt() << std::endl;
+			std::cout << c.getData("marca").getTag() << " : " << c.getData("marca").getString() << std::endl;
 
 			e.addComponent(c);
 		}
 	}
-
+	
 	std::string output = "";
-	//EF::JSONSerializer::serializeFast(&e, output);
+	EF::JSONSerializer::serialize(&e, output);
 
 	std::cout << output << std::endl;
+
+	//Lo escribo en prueba.json
+	std::ofstream outputFile("prueba.json");
+	if(outputFile.is_open()) {
+		outputFile << output;
+		outputFile.close();
+
+		std::cout << "Output written on prueba.json" << std::endl;
+	}
 	
 	/* TESTING FOR ComponentData 
 	EF::CData<int> cd1;

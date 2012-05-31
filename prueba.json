@@ -1,0 +1,25 @@
+{
+   "components" : [
+      {
+         "data" : [
+            {
+               "tag" : "velocidad",
+               "type" : 0,
+               "value" : 3
+            },
+            {
+               "tag" : "marca",
+               "type" : 3,
+               "value" : "peugeot"
+            },
+            {
+               "tag" : "frenado",
+               "type" : 1,
+               "value" : 2.50
+            }
+         ],
+         "id" : 0
+      }
+   ],
+   "id" : 0
+}

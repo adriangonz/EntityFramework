@@ -7,11 +7,14 @@
 #pragma once
 
 #include <string>
+#include "ITagged.h"
+#include "IJsonSerializable.h"
+#include "json/json.h"
 
 namespace EF {
 
 	//Class that holds one variable of any basic type
-	class CData {
+	class CData : public ITagged, public IJsonSerializable{
 	public:
 		//Type of data
 		enum DataType {
@@ -45,6 +48,10 @@ namespace EF {
 		double getDouble() const;
 		bool getBool() const;
 		std::string getString() const;
+
+		//Implementation of IJsonSerializable
+		Json::Value serialize() const;
+		void deserialize(Json::Value& root);
 
 	private:
 		//Value of data

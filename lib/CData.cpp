@@ -108,6 +108,85 @@ namespace EF {
 		return _sVal;
 	}
 
+	Json::Value
+	CData::serialize() const {
+		Json::Value val;
+		val["tag"] = getTag();
+
+		std::string type = "";
+
+		val["type"] = _type;
+
+		switch (_type)
+		{
+		case EF::CData::Int:
+			val["value"] = _iVal;
+			break;
+		case EF::CData::Double:
+			val["value"] = _dVal;
+			break;
+		case EF::CData::Bool:
+			val["value"] = _bVal;
+			break;
+		case EF::CData::String:
+			val["value"] = _sVal;
+			break;
+		case EF::CData::None:
+			break;
+		default:
+			break;
+		}
+
+		return val;
+	}
+
+	void
+	CData::deserialize(Json::Value& root) {
+		init();
+
+		setTag(Tag(root.get("tag", "").asString()));
+		
+		Json::Value aux = root.get("type", "");
+		int type = None;
+		if(aux.isInt()) {
+			type = aux.asInt();		
+		}
+
+		if(type >= 0 && type <= None) {
+			_type = DataType(type);
+		}else{
+			_type = None;
+		}
+
+		switch (_type)
+		{
+		case EF::CData::Int:
+			aux = root.get("value", "");
+			if(aux.isInt())
+				_iVal = aux.asInt();
+			break;
+		case EF::CData::Double:
+			aux = root.get("value", "");
+			if(aux.isDouble())
+				_dVal = aux.asDouble();
+			break;
+		case EF::CData::Bool:
+			aux = root.get("value", "");
+			if(aux.isBool())
+				_dVal = aux.asBool();
+			break;
+		case EF::CData::String:
+			aux = root.get("value", "");
+			if(aux.isString())
+				_sVal = aux.asString();
+			break;
+		case EF::CData::None:
+			break;
+		default:
+			break;
+		}
+	}
+
 	void
 	CData::init() {
 		_type = None;
@@ -120,6 +199,7 @@ namespace EF {
 	void
 	CData::copy(const CData& cd) {
 		init();
+		ITagged::copy(cd);
 		_type = cd._type;
 
 		switch (_type)

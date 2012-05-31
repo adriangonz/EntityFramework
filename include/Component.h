@@ -1,12 +1,15 @@
 #pragma once
 
 #include <string>
+#include <map>
 
 #include "IJsonSerializable.h"
 #include "CData.h"
+#include "Tag.h"
+#
 
 namespace EF {
-	class Component : public IJsonSerializable {
+	class Component : public IJsonSerializable, public ITagged {
 	public:
 		//Static attributes
 		static const int InvalidID;
@@ -35,7 +38,8 @@ namespace EF {
 		int _id;
 
 		//Maps of data for the component
-		std::map<std::string, CData> _data;
+		std::map<Tag, CData> _data;
+		//std::set<CData> _data;
 
 		//Aux func for copy/init/destroy
 		void copy(const Component& comp);
