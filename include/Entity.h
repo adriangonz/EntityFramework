@@ -27,7 +27,7 @@ namespace EF{
 
 		//Serialize
 		Json::Value serialize() const;
-		void deserialize(Json::Value& root);
+		void deserialize(const Json::Value& root);
 
 	private:
 		//List of components

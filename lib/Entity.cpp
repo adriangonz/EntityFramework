@@ -87,7 +87,7 @@ namespace EF {
 	}
 
 	void
-	Entity::deserialize(Json::Value& root) {
+	Entity::deserialize(const Json::Value& root) {
 		destroy();
 
 		_id = root.get("id", Entity::InvalidID).asInt();

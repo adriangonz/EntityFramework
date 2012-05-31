@@ -20,4 +20,5 @@ build/
 
 # Things of VS2011
 Debug/
+From\ File/
 EntityFramework.*

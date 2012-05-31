@@ -51,7 +51,7 @@ namespace EF {
 
 		//Implementation of IJsonSerializable
 		Json::Value serialize() const;
-		void deserialize(Json::Value& root);
+		void deserialize(const Json::Value& root);
 
 	private:
 		//Value of data

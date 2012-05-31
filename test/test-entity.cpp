@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
 			c.addData("marca", "peugeot");
 
 			std::cout << c.getData("velocidad").getTag() << " : " << c.getData("velocidad").getInt() << std::endl;
-			std::cout << c.getData("frenado").getTag() << " : " << c.getData("frenado").getInt() << std::endl;
+			std::cout << c.getData("frenado").getTag() << " : " << c.getData("frenado").getDouble() << std::endl;
 			std::cout << c.getData("marca").getTag() << " : " << c.getData("marca").getString() << std::endl;
 
 			e.addComponent(c);
@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
 	std::cout << output << std::endl;
 
 	//Lo escribo en prueba.json
+	
 	std::ofstream outputFile("prueba.json");
 	if(outputFile.is_open()) {
 		outputFile << output;
@@ -56,6 +57,7 @@ int main(int argc, char **argv) {
 
 		std::cout << "Output written on prueba.json" << std::endl;
 	}
+	
 	
 	/* TESTING FOR ComponentData 
 	EF::CData<int> cd1;

@@ -141,7 +141,7 @@ namespace EF {
 	}
 
 	void
-	CData::deserialize(Json::Value& root) {
+	CData::deserialize(const Json::Value& root) {
 		init();
 
 		setTag(Tag(root.get("tag", "").asString()));

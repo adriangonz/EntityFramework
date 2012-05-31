@@ -1,7 +1,7 @@
 {
    "components" : [
       {
-         "data" : [
+         "attributes" : [
             {
                "tag" : "velocidad",
                "type" : 0,
