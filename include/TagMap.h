@@ -6,6 +6,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 namespace EF {
 	//Template for an std::map indexed by Tags
@@ -37,6 +38,7 @@ namespace EF {
 			Tag t(identifier);
 			C aux(c);
 			aux.setTag(t);
+			std::cout << "[TagMap.h] Add... " << aux.getTag() << std::endl;
 			_map[t] = aux;
 		}
 

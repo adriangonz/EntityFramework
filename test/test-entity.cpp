@@ -2,6 +2,7 @@
 #include "Component.h"
 #include "CData.h"
 #include "JSONSerializer.h"
+#include "EntityManager.h"
 
 #include <iostream>
 #include <fstream>
@@ -9,8 +10,8 @@
 
 int main(int argc, char **argv) {
 	/* TESTING FOR SERIALIZERS (Y UN POCO DE TODO) */
-	EF::Entity e(0);
-
+	//EF::Entity e(0);
+	EF::EntityManager em;
 	if(argc == 2) {
 		//Read from file
 		std::string inputFile = argv[1];
@@ -25,26 +26,33 @@ int main(int argc, char **argv) {
 		}
 
 		std::cout << "[test-entity.cpp] Readed Content: " << inputContent << " from " << inputFile << std::endl;
-		EF::JSONSerializer::deserialize(&e, inputContent);
+		EF::JSONSerializer::deserialize(&em, inputContent);
 
 	}else{
-		//Create random
-		for(int j = 0; j < 1; j++){
-			EF::Component c(j);
-			c.addData("velocidad", 3);
-			c.addData("frenado", 2.5);
-			c.addData("marca", "peugeot");
-
-			std::cout << c.getData("velocidad").getTag() << " : " << c.getData("velocidad").getInt() << std::endl;
-			std::cout << c.getData("frenado").getTag() << " : " << c.getData("frenado").getDouble() << std::endl;
-			std::cout << c.getData("marca").getTag() << " : " << c.getData("marca").getString() << std::endl;
-
-			e.addComponent(c);
+		//Create "random"
+		for(int i = 0; i < 1; i++){
+			EF::Entity e;
+			for(int j = 0; j < 1; j++){
+				EF::Component c(j);
+				c.addData("velocidad", 3);
+				c.addData("frenado", 2.5);
+				c.addData("marca", "peugeot");
+				/*
+				std::cout << c.getData("velocidad").getTag() << " : " << c.getData("velocidad").getInt() << std::endl;
+				std::cout << c.getData("frenado").getTag() << " : " << c.getData("frenado").getDouble() << std::endl;
+				std::cout << c.getData("marca").getTag() << " : " << c.getData("marca").getString() << std::endl;
+				*/
+				e.addComponent("coche", c);
+			}
+			
+			std::stringstream ss;
+			ss << "entidad - " << i;
+			em.addEntity(ss.str(), e);
 		}
 	}
 	
 	std::string output = "";
-	EF::JSONSerializer::serialize(&e, output);
+	EF::JSONSerializer::serialize(&em, output);
 
 	std::cout << output << std::endl;
 

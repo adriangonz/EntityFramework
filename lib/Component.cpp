@@ -38,7 +38,8 @@ namespace EF {
 	Json::Value
 	Component::serialize() const {
 		Json::Value val;
-		val["id"] = _id;
+		val["tag"] = getTag();
+		//val["id"] = _id;
 		/*
 		typedef std::map<Tag, CData> MyMap;
 
@@ -54,9 +55,13 @@ namespace EF {
 
 	void
 	Component::deserialize(const Json::Value& root) {
-		_id = root.get("id", InvalidID).asInt();
+		//_id = root.get("id", InvalidID).asInt();
 
-		Json::Value vector = root.get("attributes", "");
+		Json::Value aux;
+
+		setTag(Tag(root.get("tag", "").asString()));
+
+		aux = root.get("attributes", "");
 		/*
 		if(vector.isArray()) {
 			int size = vector.size();
@@ -67,7 +72,7 @@ namespace EF {
 			}
 		}
 		*/
-		_attributes.deserialize(vector);
+		_attributes.deserialize(aux);
 	}
 
 	void
@@ -88,6 +93,7 @@ namespace EF {
 	Component::copy(const Component& cp){
 		_id = cp._id;
 		_attributes = cp._attributes;
+		ITagged::copy(cp);
 	}
 
 	void
