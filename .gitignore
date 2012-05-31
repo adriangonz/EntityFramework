@@ -17,3 +17,8 @@ build/
 # Project files for eclipse
 .project
 .cproject
+
+# Things of VS2011
+Debug/
+From\ File/
+EntityFramework.*

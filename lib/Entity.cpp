@@ -7,7 +7,7 @@ namespace EF {
 		_id = id;
 	}
 
-	Entity::Entity(int id, std::list<Component> comps) {
+	Entity::Entity(int id, TagMap<Component> comps) {
 		_id = id;
 		_components = comps;
 	}
@@ -31,87 +31,53 @@ namespace EF {
 	}
 
 	void
-	Entity::addComponent(const Component& comp) {
-		_components.push_front(comp);
+	Entity::addComponent(std::string compType, const Component& comp) {
+		_components.add(compType, comp);
+
+		//std::cout << "[Entity.cpp] Add... " << _components.get(compType).getTag() << std::endl;
 	}
 
 	Component
-	Entity::getComponent(int id) const {
-		Component comp;
-
-		std::list<Component>::const_iterator it;
-		std::list<Component>::const_iterator it_end;
-
-		for(it = _components.begin(), it_end = _components.end(); it != it_end; it++) {
-			if(it->getID() == id){
-				comp = *it;
-				break;
-			}
-		}
-
-		return comp;
+	Entity::getComponent(std::string compType) const {
+		return _components.get(compType);
 	}
 
 	bool
-	Entity::rmComponent(int id) {
-		bool erased = false;
-
-		std::list<Component>::iterator it;
-		std::list<Component>::iterator it_end;
-
-		for(it = _components.begin(), it_end = _components.end(); it != it_end; it++) {
-			if(it->getID() == id){
-				it = _components.erase(it);
-				erased = true;
-				break;
-			}
-		}
-
-		return erased;
+	Entity::rmComponent(std::string compType) {
+		return _components.rm(compType);
 	} 
 
 	Json::Value
 	Entity::serialize() const {
 		Json::Value value;
 
-		value["id"] = _id;
-
-		std::list<Component>::const_iterator it;
-		std::list<Component>::const_iterator it_end;
-
-		for(it = _components.begin(), it_end = _components.end(); it != it_end; it++) {
-			value["components"].append(it->serialize());
-		}
+		//value["id"] = _id;
+		value["tag"] = getTag();
+		value["components"] = _components.serialize();
 
 		return value;
 	}
 
 	void
-	Entity::deserialize(Json::Value& root) {
+	Entity::deserialize(const Json::Value& root) {
 		destroy();
 
 		_id = root.get("id", Entity::InvalidID).asInt();
-
+		setTag(Tag(root.get("tag", "").asString()));
+		
 		Json::Value vector = root.get("components", "");
-		if(vector.isArray()) {
-			int size = vector.size();
-			for(int i = 0; i < size; i++){
-				Component c;
-				c.deserialize(vector[i]);
-				_components.push_front(c);
-			}
-		}
+		_components.deserialize(vector);
 	}
 
 	void
 	Entity::copy(const Entity& en){
 		_id = en._id;
 		_components = en._components;
+		ITagged::copy(en);
 	}
 
 	void
 	Entity::destroy(){
 		_id = InvalidID;
-		_components.clear();
 	}
 }

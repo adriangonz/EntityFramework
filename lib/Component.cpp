@@ -38,19 +38,62 @@ namespace EF {
 	Json::Value
 	Component::serialize() const {
 		Json::Value val;
-		val["id"] = _id;
+		val["tag"] = getTag();
+		//val["id"] = _id;
+		/*
+		typedef std::map<Tag, CData> MyMap;
+
+		MyMap::const_iterator it, it_end;
+		for(it = _data.begin(), it_end = _data.end(); it != it_end; it++) {
+			val["data"].append(it->second.serialize());
+		}
+		*/
+		val["attributes"] = _attributes.serialize();
 
 		return val;
 	}
 
 	void
-	Component::deserialize(Json::Value& root) {
-		_id = root.get("id", InvalidID).asInt();
+	Component::deserialize(const Json::Value& root) {
+		//_id = root.get("id", InvalidID).asInt();
+
+		Json::Value aux;
+
+		setTag(Tag(root.get("tag", "").asString()));
+
+		aux = root.get("attributes", "");
+		/*
+		if(vector.isArray()) {
+			int size = vector.size();
+			for(int i = 0; i < size; i++){
+				CData c;
+				c.deserialize(vector[i]);
+				_data[c.getTag()] = c;
+			}
+		}
+		*/
+		_attributes.deserialize(aux);
+	}
+
+	void
+	Component::addData(std::string identifier, const CData& data) {
+		_attributes.add(identifier, data);
+	}
+
+	CData
+	Component::getData(std::string identifier) {
+		return _attributes.get(identifier);
+	}
+
+	bool Component::rmData(std::string identifier) {
+		return (_attributes.rm(identifier));
 	}
 
 	void
 	Component::copy(const Component& cp){
 		_id = cp._id;
+		_attributes = cp._attributes;
+		ITagged::copy(cp);
 	}
 
 	void
