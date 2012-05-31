@@ -1,0 +1,14 @@
+### TODO LIST
+
+# 1 Change indexing (from std::string to int) and therefore remove the ITagged class
+
+# 2 Store pointers to entitys on EntityManager (and make a deleteAll (or similar) method on TagMap)
+
+# 3 Save only one type of data on the Component 
+	
+	Maybe, I could make an interface of Component, which would inherit from IJsonSerializable.
+	Then, I'd have an universal container, and it would be serializable.
+	Also, I have to make a "BasicComponent" class (which would replace the actual Component, that can store and integer, double, bool or std::string)
+	or maybe IntComponent, BoolComponent, DoubleComponent, StringComponent?
+
+# 4 Force entitys to register on Systems when added to EntityManager (and maybe a method for the inverse on Systems)
